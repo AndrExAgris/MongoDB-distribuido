@@ -2,15 +2,15 @@
 
 ---
 
-### **1. Initialize Each Shard**
+### **1. Inicializar cada shard**
 
 #### **Shard 1**
-1. Connect to `mongo-shard1`:
+1. Entrar em `mongo-shard1`:
    ```bash
    docker exec -it mongo-shard1 mongosh --host mongo-shard1:27021
    ```
 
-2. Initiate the replica set:
+2. Inicializar o set de replicação:
    ```javascript
    rs.initiate({
      _id: "shard1ReplSet",
@@ -21,12 +21,12 @@
 ---
 
 #### **Shard 2**
-1. Connect to `mongo-shard2`:
+1. Entrar em `mongo-shard2`:
    ```bash
    docker exec -it mongo-shard2 mongosh --host mongo-shard2:27022
    ```
 
-2. Initiate the replica set:
+2. Inicializar o set de replicação:
    ```javascript
    rs.initiate({
      _id: "shard2ReplSet",
@@ -37,12 +37,12 @@
 ---
 
 #### **Shard 3**
-1. Connect to `mongo-shard3`:
+1. Entrar em `mongo-shard3`:
    ```bash
    docker exec -it mongo-shard3 mongosh --host mongo-shard3:27023
    ```
 
-2. Initiate the replica set:
+2. Inicializar o set de replicação:
    ```javascript
    rs.initiate({
      _id: "shard3ReplSet",
@@ -52,35 +52,30 @@
 
 ---
 
-### **2. Add Shards to the Router**
+### **2. Adicionar os shards no router**
 
-1. Connect to `mongo-router`:
+1. Entrar em `mongo-router`:
    ```bash
    docker exec -it mongo-router mongosh --host mongo-router:27017
    ```
 
-2. Add the shards:
+2. Adicionar os shards:
    ```javascript
    sh.addShard("shard1ReplSet/mongo-shard1:27021");
    sh.addShard("shard2ReplSet/mongo-shard2:27022");
    sh.addShard("shard3ReplSet/mongo-shard3:27023");
    ```
 
-3. Verify the cluster:
-   ```javascript
-   sh.status();
-   ```
-
 ---
 
-### **3. Enable Sharding**
+### **3. Permitir o sharding no bando de dados**
 
-1. Enable sharding for a database:
+1. Permitir o sharding no bando de dados:
    ```javascript
    sh.enableSharding("testDB");
    ```
 
-2. Shard a collection:
+2. Utilizar o shard:
    ```javascript
    sh.shardCollection("testDB.testCollection", { _id: "hashed" });
    ```
